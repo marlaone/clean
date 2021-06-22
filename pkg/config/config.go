@@ -1,11 +1,14 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
-func Load() error {
+func Load(configName string) error {
 	viper.AddConfigPath("./configs")
+	viper.AddConfigPath("../configs")
 	viper.SetConfigType("yaml")
-	viper.SetConfigName("main")
+	viper.SetConfigName(configName)
 	if err := viper.ReadInConfig(); err != nil {
 		return err
 	}

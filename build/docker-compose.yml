@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  db:
+    build: ./db
+    ports:
+      - "7292:5432"
+  server:
+    build: ../
+    ports:
+      - "1337:1337"

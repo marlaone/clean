@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/go-chi/chi v1.5.4 // indirect
 	github.com/go-chi/chi/v5 v5.0.3 // indirect
+	github.com/spf13/cobra v1.1.3 // indirect
 	github.com/spf13/viper v1.8.0 // indirect
 	go.uber.org/atomic v1.8.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
