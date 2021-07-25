@@ -3,26 +3,19 @@ package main
 import "github.com/marlaone/clean/interfaces"
 
 type CleanApp struct {
+	*Registrable
 	registry interfaces.Registry
 	ctx      interfaces.AppContext
 }
 
 var _ interfaces.App = &CleanApp{}
 
-func NewCleanApp() *CleanApp {
+func NewCleanApp(registry interfaces.Registry) *CleanApp {
 	return &CleanApp{
-		registry: NewCleanRegistry(),
+		Registrable: NewRegistrable(registry),
+		ctx:         NewAppContext(registry),
 	}
 }
-
-func (a *CleanApp) SetRegistry(r interfaces.Registry) {
-	a.registry = r
-}
-
-func (a *CleanApp) GetRegistry() interfaces.Registry {
-	return a.registry
-}
-
 func (a *CleanApp) SetContext(ctx interfaces.AppContext) {
 	a.ctx = ctx
 }

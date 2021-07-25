@@ -1,6 +1,7 @@
 package interfaces
 
 type AppContext interface {
+	Registrable
 	RegisterPresenter(name string, presenterType string, presenter Presenter)
 	GetPresenter(name string, presenterType string) (Presenter, error)
 	RegisterUseCase(name string, uc UseCase)

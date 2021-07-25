@@ -1,3 +1,5 @@
 package interfaces
 
-type UseCase interface{}
+type UseCase interface {
+	Registrable
+}
