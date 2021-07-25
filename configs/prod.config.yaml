@@ -1,8 +1,0 @@
-server:
-  port: 1337
-database:
-  host: "db"
-  port: 5432
-  user: "speedtest_user"
-  password: "yd339WQgS7rskS9Q"
-  name: "speedtest"
