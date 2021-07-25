@@ -1,4 +1,4 @@
-module marla.one/clean
+module github.com/marlaone/clean
 
 go 1.16
 
