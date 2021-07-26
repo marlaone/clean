@@ -4,8 +4,7 @@ import "github.com/marlaone/clean/interfaces"
 
 type CleanApp struct {
 	*Registrable
-	registry interfaces.Registry
-	ctx      interfaces.AppContext
+	ctx interfaces.AppContext
 }
 
 var _ interfaces.App = &CleanApp{}
