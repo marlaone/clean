@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "project",
     "clean",
-    "registry"
+    "registry",
+    "examples"
   ]
 }

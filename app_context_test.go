@@ -1,30 +1,50 @@
-package main
+package clean_test
 
 import (
+	"net/http"
 	"testing"
 
+	"github.com/marlaone/clean"
 	"github.com/marlaone/clean/interfaces"
 )
 
 type MockPresenter struct {
-	*Registrable
+	interfaces.Registrable
+	interfaces.AppContextable
 }
 
 var _ interfaces.Presenter = &MockPresenter{}
 
-func NewMockPresenter(registry interfaces.Registry) *MockPresenter {
+func NewMockPresenter(registry interfaces.Registry, ctx interfaces.AppContextable) *MockPresenter {
 	return &MockPresenter{
-		Registrable: NewRegistrable(registry),
+		Registrable:    clean.NewRegistrable(registry),
+		AppContextable: ctx,
 	}
+}
+
+func (p *MockPresenter) CreateAction(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (p *MockPresenter) ReadAction(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (p *MockPresenter) UpdateAction(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (p *MockPresenter) DeleteAction(w http.ResponseWriter, r *http.Request) {
+
 }
 
 func TestAppContextPresenter(t *testing.T) {
 
-	registry := NewCleanRegistry()
+	registry := clean.NewRegistry()
 
-	ctx := NewAppContext(registry)
+	ctx := clean.NewAppContext(registry)
 
-	ctx.RegisterPresenter("test", "mock", NewMockPresenter(registry))
+	ctx.RegisterPresenter("test", "mock", NewMockPresenter(registry, ctx))
 
 	_, err := ctx.GetPresenter("test", "mock")
 
@@ -36,23 +56,25 @@ func TestAppContextPresenter(t *testing.T) {
 }
 
 type MockUseCase struct {
-	*Registrable
+	interfaces.Registrable
+	interfaces.AppContextable
 }
 
 var _ interfaces.UseCase = &MockUseCase{}
 
-func NewMockUseCase(registry interfaces.Registry) *MockUseCase {
+func NewMockUseCase(registry interfaces.Registry, ctx interfaces.AppContextable) *MockUseCase {
 	return &MockUseCase{
-		Registrable: NewRegistrable(registry),
+		Registrable:    clean.NewRegistrable(registry),
+		AppContextable: ctx,
 	}
 }
 
 func TestAppContextUseCase(t *testing.T) {
-	registry := NewCleanRegistry()
+	registry := clean.NewRegistry()
 
-	ctx := NewAppContext(registry)
+	ctx := clean.NewAppContext(registry)
 
-	ctx.RegisterUseCase("mock", NewMockPresenter(registry))
+	ctx.RegisterUseCase("mock", NewMockPresenter(registry, ctx))
 
 	_, err := ctx.GetUseCase("mock")
 
@@ -64,14 +86,16 @@ func TestAppContextUseCase(t *testing.T) {
 }
 
 type MockRepository struct {
-	*Registrable
+	interfaces.Registrable
+	interfaces.AppContextable
 }
 
 var _ interfaces.Repository = &MockRepository{}
 
-func NewMockRepository(registry interfaces.Registry) *MockRepository {
+func NewMockRepository(registry interfaces.Registry, ctx interfaces.AppContextable) *MockRepository {
 	return &MockRepository{
-		Registrable: NewRegistrable(registry),
+		Registrable:    clean.NewRegistrable(registry),
+		AppContextable: ctx,
 	}
 }
 
@@ -92,11 +116,11 @@ func (repo *MockRepository) Delete(e interfaces.Entity) error {
 }
 
 func TestAppContextRepository(t *testing.T) {
-	registry := NewCleanRegistry()
+	registry := clean.NewRegistry()
 
-	ctx := NewAppContext(registry)
+	ctx := clean.NewAppContext(registry)
 
-	ctx.RegisterRepository("mock", NewMockRepository(registry))
+	ctx.RegisterRepository("mock", NewMockRepository(registry, ctx))
 
 	_, err := ctx.GetRepository("mock")
 

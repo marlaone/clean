@@ -1,12 +1,14 @@
-package main
+package clean_test
 
 import (
 	"testing"
+
+	"github.com/marlaone/clean"
 )
 
 func TestRegistry(t *testing.T) {
 
-	registry := NewCleanRegistry()
+	registry := clean.NewRegistry()
 
 	registry.RegisterApp("mock", NewMockApp(registry))
 
@@ -14,6 +16,10 @@ func TestRegistry(t *testing.T) {
 
 	if err != nil {
 		t.Errorf("app registration failed: %v", err)
+	}
+
+	if len(registry.GetApps()) == 0 {
+		t.Errorf("app registration failed because no app is registered")
 	}
 
 	t.Log("app registration works")

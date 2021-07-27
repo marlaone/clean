@@ -1,24 +1,32 @@
-package main
+package clean
 
 import "github.com/marlaone/clean/interfaces"
 
-type CleanApp struct {
+type App struct {
 	*Registrable
 	ctx interfaces.AppContext
 }
 
-var _ interfaces.App = &CleanApp{}
+var _ interfaces.App = &App{}
 
-func NewCleanApp(registry interfaces.Registry) *CleanApp {
-	return &CleanApp{
+func NewApp(registry interfaces.Registry) *App {
+	return &App{
 		Registrable: NewRegistrable(registry),
 		ctx:         NewAppContext(registry),
 	}
 }
-func (a *CleanApp) SetContext(ctx interfaces.AppContext) {
+func (a *App) SetContext(ctx interfaces.AppContext) {
 	a.ctx = ctx
 }
 
-func (a *CleanApp) GetContext() interfaces.AppContext {
+func (a *App) GetContext() interfaces.AppContext {
 	return a.ctx
+}
+
+func (a *App) Setup() {
+
+}
+
+func (a *App) Run() {
+
 }

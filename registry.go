@@ -1,4 +1,4 @@
-package main
+package clean
 
 import (
 	"fmt"
@@ -6,25 +6,25 @@ import (
 	"github.com/marlaone/clean/interfaces"
 )
 
-type CleanRegistry struct {
+type Registry struct {
 	apps     map[string]interfaces.App
 	adapters map[string]interfaces.StorageAdapter
 }
 
-var _ interfaces.Registry = &CleanRegistry{}
+var _ interfaces.Registry = &Registry{}
 
-func NewCleanRegistry() *CleanRegistry {
-	return &CleanRegistry{
+func NewRegistry() *Registry {
+	return &Registry{
 		apps:     map[string]interfaces.App{},
 		adapters: map[string]interfaces.StorageAdapter{},
 	}
 }
 
-func (r *CleanRegistry) RegisterApp(appName string, app interfaces.App) {
+func (r *Registry) RegisterApp(appName string, app interfaces.App) {
 	r.apps[appName] = app
 }
 
-func (r *CleanRegistry) GetApp(appName string) (interfaces.App, error) {
+func (r *Registry) GetApp(appName string) (interfaces.App, error) {
 	app, ok := r.apps[appName]
 
 	if !ok {
@@ -34,11 +34,15 @@ func (r *CleanRegistry) GetApp(appName string) (interfaces.App, error) {
 	return app, nil
 }
 
-func (r *CleanRegistry) RegisterStorageAdapter(name string, adapter interfaces.StorageAdapter) {
+func (r *Registry) GetApps() map[string]interfaces.App {
+	return r.apps
+}
+
+func (r *Registry) RegisterStorageAdapter(name string, adapter interfaces.StorageAdapter) {
 	r.adapters[name] = adapter
 }
 
-func (r *CleanRegistry) GetStorageAdapter(name string) (interfaces.StorageAdapter, error) {
+func (r *Registry) GetStorageAdapter(name string) (interfaces.StorageAdapter, error) {
 	adapter, ok := r.adapters[name]
 
 	if !ok {

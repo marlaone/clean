@@ -1,4 +1,4 @@
-package main
+package clean
 
 import "github.com/marlaone/clean/interfaces"
 
