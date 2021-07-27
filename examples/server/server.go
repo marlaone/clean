@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"github.com/marlaone/clean"
+	"github.com/marlaone/clean/httputils"
 	"github.com/marlaone/clean/interfaces"
 )
 
@@ -39,20 +39,30 @@ func (server *ServerApp) Setup() {
 
 func (server *ServerApp) Run(ctx context.Context) {
 	r := chi.NewRouter()
-	r.Use(middleware.Logger)
 
 	for _, a := range server.GetRegistry().GetApps() {
-		httpPresenters, err := a.GetContext().GetPresentersByType("http")
-		if err != nil {
-			continue
-		}
+		httpPresenters := httputils.GetHttpPresenters(a.GetContext(), "http")
 		for presenterName, p := range httpPresenters {
-			r.Post(fmt.Sprintf("/%s", presenterName), p.CreateAction)
-			r.Get(fmt.Sprintf("/%s", presenterName), p.ReadAction)
-			r.Put(fmt.Sprintf("/%s", presenterName), p.UpdateAction)
-			r.Delete(fmt.Sprintf("/%s", presenterName), p.DeleteAction)
+			r.Mount(fmt.Sprintf("/%s", presenterName), (func() http.Handler {
+				r := chi.NewRouter()
+				for _, mw := range p.GetMiddlewares() {
+					r.Use(mw)
+				}
+				r.Route("/", PresenterRouter(p))
+				return r
+			})())
+
 		}
 	}
 
 	http.ListenAndServe(":7292", r)
+}
+
+func PresenterRouter(p interfaces.HttpPresenter) func(r chi.Router) {
+	return func(r chi.Router) {
+		r.Post("/", p.CreateAction)
+		r.Get("/", p.ReadAction)
+		r.Put("/", p.UpdateAction)
+		r.Delete("/", p.DeleteAction)
+	}
 }

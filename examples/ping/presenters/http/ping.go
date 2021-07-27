@@ -3,22 +3,28 @@ package http
 import (
 	"net/http"
 
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/marlaone/clean"
 	"github.com/marlaone/clean/examples/ping/usecases"
+	"github.com/marlaone/clean/httputils"
 	"github.com/marlaone/clean/interfaces"
 )
 
 type PingHttpPresenter struct {
 	interfaces.Registrable
 	interfaces.AppContextable
+	interfaces.HttpMiddlewares
 }
 
-var _ interfaces.Presenter = &PingHttpPresenter{}
+var _ interfaces.HttpPresenter = &PingHttpPresenter{}
 
 func NewPingHttpPresenter(registry interfaces.Registry, appContext interfaces.AppContextable) *PingHttpPresenter {
 	return &PingHttpPresenter{
 		Registrable:    clean.NewRegistrable(registry),
 		AppContextable: appContext,
+		HttpMiddlewares: httputils.NewHttpMiddlewares(
+			middleware.Logger,
+		),
 	}
 }
 

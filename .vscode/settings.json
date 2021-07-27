@@ -4,6 +4,7 @@
     "clean",
     "registry",
     "examples",
-    "app"
+    "app",
+    "presenter"
   ]
 }
