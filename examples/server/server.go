@@ -59,10 +59,12 @@ func (server *ServerApp) Run(ctx context.Context) {
 }
 
 func PresenterRouter(p interfaces.HttpPresenter) func(r chi.Router) {
+	createRoute, readRoute, updateRoute, deleteRoute := p.GetRoutes()
+
 	return func(r chi.Router) {
-		r.Post("/", p.CreateAction)
-		r.Get("/", p.ReadAction)
-		r.Put("/", p.UpdateAction)
-		r.Delete("/", p.DeleteAction)
+		r.Post(createRoute, p.CreateAction)
+		r.Get(readRoute, p.ReadAction)
+		r.Put(updateRoute, p.UpdateAction)
+		r.Delete(deleteRoute, p.DeleteAction)
 	}
 }

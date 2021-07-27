@@ -36,6 +36,7 @@ func (ping *PingApp) GetContext() interfaces.AppContext {
 func (ping *PingApp) Setup() {
 	ping.GetRegistry().RegisterStorageAdapter("messages", adapters.NewMessagesAdapter())
 	ping.GetContext().RegisterPresenter("http", "ping", http.NewPingHttpPresenter(ping.GetRegistry(), ping.GetContext()))
+	ping.GetContext().RegisterPresenter("http", "custom", http.NewCustomHttpPresenter(ping.GetRegistry(), ping.GetContext()))
 	ping.GetContext().RegisterRepository("ping", repositories.NewPingRepository(ping.GetRegistry(), ping.GetContext()))
 	ping.GetContext().RegisterUseCase("ping", usecases.NewPingUseCase(ping.GetRegistry(), ping.GetContext()))
 }

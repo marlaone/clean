@@ -10,31 +10,36 @@ import (
 	"github.com/marlaone/clean/interfaces"
 )
 
-type PingHttpPresenter struct {
+type CustomPresenter struct {
 	interfaces.Registrable
 	interfaces.AppContextable
 	interfaces.HttpMiddlewares
 	interfaces.HttpPresenterRoutable
 }
 
-var _ interfaces.HttpPresenter = &PingHttpPresenter{}
+var _ interfaces.HttpPresenter = &CustomPresenter{}
 
-func NewPingHttpPresenter(registry interfaces.Registry, appContext interfaces.AppContextable) *PingHttpPresenter {
+func NewCustomHttpPresenter(registry interfaces.Registry, appContext interfaces.AppContextable) *PingHttpPresenter {
+
+	routes := clean.GetDefaultRoutes()
+
+	routes["read"] = "/git"
+
 	return &PingHttpPresenter{
 		Registrable:    clean.NewRegistrable(registry),
 		AppContextable: appContext,
 		HttpMiddlewares: httputils.NewHttpMiddlewares(
 			middleware.Logger,
 		),
-		HttpPresenterRoutable: clean.NewDefaultRoutesHttpPresenter(),
+		HttpPresenterRoutable: clean.NewRoutableHttpPresenter(routes),
 	}
 }
 
-func (p *PingHttpPresenter) CreateAction(w http.ResponseWriter, r *http.Request) {
+func (p *CustomPresenter) CreateAction(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (p *PingHttpPresenter) ReadAction(w http.ResponseWriter, r *http.Request) {
+func (p *CustomPresenter) ReadAction(w http.ResponseWriter, r *http.Request) {
 	uc, err := p.GetUseCase("ping")
 
 	if err != nil {
@@ -50,10 +55,10 @@ func (p *PingHttpPresenter) ReadAction(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(pingUseCase.GetMessage()))
 }
 
-func (p *PingHttpPresenter) UpdateAction(w http.ResponseWriter, r *http.Request) {
+func (p *CustomPresenter) UpdateAction(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (p *PingHttpPresenter) DeleteAction(w http.ResponseWriter, r *http.Request) {
+func (p *CustomPresenter) DeleteAction(w http.ResponseWriter, r *http.Request) {
 
 }
