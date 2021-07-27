@@ -1,6 +1,8 @@
 package ping
 
 import (
+	"context"
+
 	"github.com/marlaone/clean"
 	"github.com/marlaone/clean/examples/ping/adapters"
 	"github.com/marlaone/clean/examples/ping/presenters/http"
@@ -38,6 +40,6 @@ func (ping *PingApp) Setup() {
 	ping.GetContext().RegisterUseCase("ping", usecases.NewPingUseCase(ping.GetRegistry(), ping.GetContext()))
 }
 
-func (ping *PingApp) Run() {
+func (ping *PingApp) Run(ctx context.Context) {
 
 }

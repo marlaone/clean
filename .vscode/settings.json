@@ -3,6 +3,7 @@
     "project",
     "clean",
     "registry",
-    "examples"
+    "examples",
+    "app"
   ]
 }

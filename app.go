@@ -1,6 +1,10 @@
 package clean
 
-import "github.com/marlaone/clean/interfaces"
+import (
+	"context"
+
+	"github.com/marlaone/clean/interfaces"
+)
 
 type App struct {
 	*Registrable
@@ -27,6 +31,6 @@ func (a *App) Setup() {
 
 }
 
-func (a *App) Run() {
+func (a *App) Run(ctx context.Context) {
 
 }

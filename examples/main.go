@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+
 	"github.com/marlaone/clean"
 	"github.com/marlaone/clean/examples/ping"
 	"github.com/marlaone/clean/examples/server"
@@ -17,6 +19,6 @@ func main() {
 	}
 
 	for _, a := range registry.GetApps() {
-		a.Run()
+		a.Run(context.Background())
 	}
 }

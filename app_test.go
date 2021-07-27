@@ -1,6 +1,8 @@
 package clean_test
 
 import (
+	"context"
+
 	"github.com/marlaone/clean"
 	"github.com/marlaone/clean/interfaces"
 )
@@ -31,6 +33,6 @@ func (app *MockApp) Setup() {
 
 }
 
-func (app *MockApp) Run() {
+func (app *MockApp) Run(ctx context.Context) {
 
 }

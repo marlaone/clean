@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -36,7 +37,7 @@ func (server *ServerApp) Setup() {
 
 }
 
-func (server *ServerApp) Run() {
+func (server *ServerApp) Run(ctx context.Context) {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
