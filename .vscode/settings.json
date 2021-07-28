@@ -6,6 +6,7 @@
     "examples",
     "app",
     "presenter",
-    "events"
+    "events",
+    "license"
   ]
 }
