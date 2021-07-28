@@ -44,6 +44,8 @@ func (r *PingRepository) Read(q interfaces.Query) ([]interfaces.Entity, error) {
 		return nil, fmt.Errorf("missing messages adapter")
 	}
 
+	r.GetRegistry().GetEventBus().Publish("log:info", "repository ping request")
+
 	return []interfaces.Entity{
 		messagesAdapter.Query("pong"),
 	}, nil
